@@ -1,0 +1,6 @@
+.ensime
+.ensime_cache.d/
+.gradle/
+build/
+.class
+.idea/

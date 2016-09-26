@@ -1,0 +1,50 @@
+group 'io.github.robhinds'
+version '1.0-SNAPSHOT'
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.6'
+}
+
+buildscript {
+  repositories {
+    maven {
+      url "https://plugins.gradle.org/m2/"
+    }
+  }
+  dependencies {
+    classpath "gradle.plugin.com.github.maiflai:gradle-scalatest:0.12"
+  }
+}
+
+repositories {
+    mavenCentral()
+}
+
+apply {
+    plugin "scala"
+    plugin "com.github.maiflai.scalatest"
+    plugin "application"
+}
+
+mainClassName = "io.github.robhinds.f2v.Main"
+
+ext {
+    scalaMajor = '2.11'
+}
+
+configurations.all {
+   resolutionStrategy.cacheChangingModulesFor 0, "seconds"
+   all*.exclude group: 'org.bytedeco', module: 'javacpp-presets'
+}
+
+dependencies {
+    compile "com.typesafe.scala-logging:scala-logging_${scalaMajor}:3.4.0"
+    compile group: 'org.deeplearning4j', name: 'deeplearning4j-core', version: '0.6.0'
+    compile group: 'org.deeplearning4j', name: 'deeplearning4j-ui', version: '0.6.0'
+    compile group: 'org.deeplearning4j', name: 'deeplearning4j-nlp', version: '0.6.0'
+    compile group: 'org.nd4j', name: 'nd4j-native', version: '0.6.0'
+    compile group: 'org.nd4j', name: 'nd4j-native', version: '0.6.0', classifier: 'linux-x86_64'
+
+    testCompile "org.scalatest:scalatest_${scalaMajor}:3.0.0"
+    testRuntime "org.pegdown:pegdown:1.6.0"
+}
