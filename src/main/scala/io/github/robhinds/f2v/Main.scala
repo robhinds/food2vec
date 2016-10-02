@@ -13,8 +13,8 @@ import scala.collection.JavaConverters._
 
 object Main extends App {
 
-  //val vec = loadExistingFoodModel
-  val vec = trainFoodModelOnText()
+  val vec = loadExistingFoodModel
+  //val vec = trainFoodModelOnText()
 
   vec.wordsNearest("lamb", 5).foreach{ word =>
     println (s"lamb :: $word = ${vec.similarity("lamb", word)}")
@@ -40,14 +40,14 @@ object Main extends App {
     * pork :: sinew = 0.36444804072380066
     */
 
-  vec.wordsNearest(List("chicken", "rosemary").asJava, List("lamb").asJava, 5).foreach{ word =>
-    println(s"pork cooking idea: $word")
+  vec.wordsNearest(List("pork", "brisket").asJava, List("beef").asJava, 5).foreach{ word =>
+    println(s"Pork equivalent of beef brisket: $word")
   }
 
   WordVectorSerializer.writeFullModel(vec, "food-model.txt");
 
   def loadExistingFoodModel() = {
-    val sModel = new ClassPathResource("food-model.txt").getFile()
+    val sModel = new ClassPathResource("food-model-ingredients-5w300d.txt").getFile()
     WordVectorSerializer.loadFullModel(sModel.getAbsolutePath)
   }
 
